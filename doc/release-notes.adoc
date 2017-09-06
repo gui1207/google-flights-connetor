@@ -1,0 +1,35 @@
+= Google QPX Connector Release Notes
+:keywords: anypoint studio, esb, connector, endpoint, google, qpx, flights
+
+*_Community_*
+
+Anypoint™ Connector for Google QPX allows to interact with Google QPX Express API and provides the ability to search for flights and use this data into your Mule apps.
+
+link:/doc/user-manual.adoc[Google QPX Connector User Guide]
+
+== Version 1.0.0 - August 31, 2017
+
+=== Version 1.0.0 Compatibility
+
+[%header%autowidth]
+|===
+|Software |Version
+|Mule Runtime |3.8.x
+|Google QPX API |1.0
+|===
+
+=== Features
+
+. Flight search -  Provides flight’s availability and pricing for a given origin and destination airports and travel dates.
+
+=== Version 1.0.0 Fixed in this Release
+
+None.
+
+=== Version 1.0.0 Known Issues
+
+None.
+
+=== Support Resources
+
+* Please see link:https://developers.google.com/qpx-express/v1/[Google QPX API Reference] for more details.

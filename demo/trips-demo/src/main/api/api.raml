@@ -1,0 +1,256 @@
+#%RAML 1.0
+title: Travel API
+version: 1.0
+baseUri: http://localhost:8081
+
+types:
+  AirportCode:
+    type: string
+    pattern: "^[a-zA-Z]{3}$"
+  CurrencyCode:
+    type: string
+    pattern: "^[A-Z]{3}$" 
+  AirlineCode:
+    type: string
+    pattern: "^[A-Z]{2}$"
+  PassengerTypeCode:
+    enum: [ADT, CHD, INF]   
+  Pricing:
+    displayName: Pricing
+    type: object
+    properties:       
+      fareFamily:
+        required: false
+        displayName: fareFamily
+        type: string      
+      pricingInfo:
+        required: true
+        displayName: pricingInfo
+        type: PricingInfo[]
+      validatingCarrier:
+        required: true
+        displayName: validatingCarrier
+        type: AirlineCode        
+  PricingInfo:
+    displayName: PricingInfo
+    type: object
+    properties:          
+      baseFare:
+        required: true
+        displayName: baseFare
+        type: MonetaryAmount
+      fare:
+        required: true
+        displayName: fare
+        type: MonetaryAmount
+      fareCalculation:
+        required: true
+        displayName: fareCalculation
+        type: string     
+      segmentFareInfo:
+        required: true
+        displayName: segmentFareInfo
+        type: SegmentFareInfo[]
+      ptc:
+        required: true
+        displayName: ptc
+        type: PassengerTypeCode          
+  MonetaryAmount:
+    displayName: MonetaryAmount
+    type: object
+    properties:
+      currencyCode:
+        required: true
+        displayName: currencyCode
+        type: CurrencyCode
+      amount:
+        required: true
+        displayName: amount
+        type: number   
+  Cabin:
+    displayName: Cabin       
+    enum: [ECONOMY, ECONOMY_PREMIUM, BUSINESS, FIRST]
+  BaggageAllowance:
+    displayName: BaggageAllowance
+    type: object
+    properties:
+      weight:
+        required: false
+        displayName: weight
+        type: integer
+      unit:
+        required: false
+        displayName: unit
+        type: string
+      pieces:
+        required: false
+        displayName: pieces
+        type: integer
+  SegmentFareInfo:
+    displayName: SegmentFareInfo
+    type: object
+    properties:
+      segmentId:
+        required: true
+        displayName: segmentId
+        type: string
+      availableCount:
+        required: false
+        displayName: availableCount
+        type: integer    
+      classOfService:
+        required: true
+        displayName: classOfService
+        type: string
+      fareBasis:
+        required: true
+        displayName: fareBasis
+        type: string
+      cabin:
+        required: true
+        displayName: cabin
+        type: Cabin
+      baggageAllowance:
+        required: false
+        displayName: baggageAllowance
+        type: BaggageAllowance 
+  Recommendation:
+    displayName: Recommendation
+    type: object
+    properties:                  
+      itinerary:
+        required: true
+        displayName: itinerary
+        type: Itinerary[]        
+      pricing:
+        required: true
+        displayName: pricing
+        type: Pricing[] 
+      provider:
+        required: true
+        displayName: provider
+        type: string
+  Itinerary:
+    displayName: Itinerary
+    type: object
+    properties:      
+      duration:
+        required: false
+        displayName: duration
+        type: number
+      mileage:
+        required: false
+        displayName: mileage
+        type: number
+      segment:
+        required: true
+        displayName: segment
+        type: Segment[]      
+  Segment:
+    displayName: Segment
+    type: object
+    properties:
+      id:
+        required: true
+        displayName: id
+        type: string      
+      flightDesignator:
+        required: true
+        displayName: flightDesignator
+        type: FlightDesignator     
+      flightDetails:
+        required: false
+        displayName: flightDetails
+        type: array
+        items:
+          type: FlightDetails      
+  FlightDesignator:
+    displayName: FlightDesignator
+    type: object
+    properties:
+      marketingCarrierCode:
+         required: true
+         displayName: marketingCarrierCode
+         type: AirlineCode
+      operationCarrierCode:
+        required: true
+        displayName: operationCarrierCode
+        type: AirlineCode
+      flightNumber:
+         required: true
+         displayName: flightNumber
+         type: string 
+  FlightDetails:
+    displayName: FlightDetails
+    type: object
+    properties:
+      departureStation:
+        required: true
+        displayName: departureStation
+        type: AirportCode
+      departureDate:
+        required: true
+        displayName: departureDate
+        type: datetime
+      arrivalStation:
+        required: true
+        displayName: arrivalStation
+        type: AirportCode
+      arrivalDate:
+        required: true
+        displayName: arrivalDate
+        type: datetime     
+      aircraft:
+        required: false
+        displayName: aircraft
+        type: string
+      duration:
+        required: false
+        displayName: duration
+        type: number
+      mileage:
+        required: false
+        displayName: mileage
+        type: number              
+/air:
+  /search:
+    get:
+      displayName: airSearch
+      description: Air search      
+      queryParameters:
+        origin:
+          required: true
+          displayName: origin
+          type: string
+          pattern: "^[a-zA-Z]{3}$"         
+        destination:
+          required: true
+          displayName: destination
+          type: string
+          pattern: "^[a-zA-Z]{3}$"
+        departureDate:
+          required: true
+          displayName: departureDate
+          type: date-only 
+        returnDate:          
+          required: false
+          displayName: returnDate
+          type: date-only
+        adtCount:
+          required: true
+          displayName: adtCount
+          type: integer 
+          minimum: 1
+          maximum: 9   
+        chdCount:
+          required: false
+          displayName: chdCount
+          type: integer
+          minimum: 1
+          maximum: 9        
+      responses:
+        200:
+          body:
+            application/json:
+              displayName: airSearchResponse
+              type: Recommendation[]              

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:google-qpx="http://www.mulesoft.org/schema/mule/google-qpx" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/google-qpx http://www.mulesoft.org/schema/mule/google-qpx/current/mule-google-qpx.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+    <google-qpx:config name="Google_QPX__Configuration" apiKey="${google.qpx.apiKey}" doc:name="Google QPX: Configuration"/>
+    <flow name="google-qpx-searchFlow">
+        <dw:transform-message doc:name="Transform Message">
+        	<dw:input-payload mimeType="application/java"/>
+            <dw:input-inbound-property doc:sample="sample_data/Map.dwl" propertyName="http.query.params"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	request: {
+		passengers: {
+			adultCount: inboundProperties."http.query.params".adtCount as :number,
+			(childCount: inboundProperties."http.query.params".chdCount as :number) when inboundProperties."http.query.params".chdCount?
+		},
+		slice: [{
+			date: inboundProperties."http.query.params".departureDate,
+			destination: inboundProperties."http.query.params".destination,
+			origin: inboundProperties."http.query.params".origin
+		}] when inboundProperties."http.query.params".returnDate is :null
+		otherwise
+		[{
+			date: inboundProperties."http.query.params".departureDate,
+			destination: inboundProperties."http.query.params".destination,
+			origin: inboundProperties."http.query.params".origin
+		}, 
+		{
+			date: inboundProperties."http.query.params".returnDate,
+			destination: inboundProperties."http.query.params".origin,
+			origin: inboundProperties."http.query.params".destination
+		}]
+	}
+} as :object {
+	class : "org.mule.modules.googleqpx.model.TripsSearchRequest"
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <google-qpx:trips config-ref="Google_QPX__Configuration" doc:name="Google QPX"/>
+        <dw:transform-message doc:name="Transform Message">
+            <dw:input-payload doc:sample="sample_data/TripsSearchResponse.dwl"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%var farePattern = /([A-Z]{3})(\d+\.?\d*)/
+%function getFareBasis(pricing, segmentPricing)
+(pricing.fare filter $.id == segmentPricing.fareId)[0].basisCode
+%function getClassOfService(tripOption, segmentPricing)
+(flatten tripOption.slice.segment filter $.id == segmentPricing.segmentId)[0].bookingCode
+%function getCabin(tripOption, segmentPricing)
+using (c = (flatten tripOption.slice.segment filter $.id == segmentPricing.segmentId)[0].cabin)
+('ECONOMY' when c == 'COACH' otherwise 
+'ECONOMY_PREMIUM' when c == 'PREMIUM_COACH' otherwise 
+c)
+%function getAmmount(value)
+(value match farePattern)[2] as :number
+%function getCurrency(value)
+(value match farePattern)[1]
+---
+payload.trips.tripOption map ((tripOption , indexOfTripOption) -> {	
+	itinerary: tripOption.slice map ((slice , indexOfSlouse) -> {
+		duration: slice.duration,
+		mileage: sum (flatten slice.segment.leg).mileage,
+		segment: slice.segment map ((segment , indexOfSegment) -> {
+			flightDesignator: {
+				flightNumber: segment.flight.number,
+				marketingCarrierCode: segment.flight.carrier
+			},
+			flightDetails: segment.leg map ((leg , indexOfLeg) -> {
+				aircraft: leg.aircraft,
+				arrivalDate: leg.arrivalTime,
+				arrivalStation: leg.destination,
+				departureDate: leg.departureTime,
+				departureStation: leg.origin,
+				duration: leg.duration,
+				mileage: leg.mileage
+			}),
+			id: segment.id
+		})
+	}),
+	pricing: [{
+		pricingInfo: tripOption.pricing map ((pricing , indexOfPricing) -> {			
+			baseFare: {
+				amount: getAmmount(pricing.baseFareTotal),
+				currencyCode: getCurrency(pricing.baseFareTotal)
+			},
+			fare: {
+				amount: getAmmount(pricing.saleFareTotal),
+				currencyCode: getCurrency(pricing.saleFareTotal)
+			},
+			fareCalculation: pricing.fareCalculation,
+			segmentFareInfo: pricing.segmentPricing map ((segmentPricing , indexOfSegmentPricing) -> {
+				airSegmentId: segmentPricing.segmentId,
+				cabin: getCabin(tripOption, segmentPricing),
+				classOfService: getClassOfService(tripOption, segmentPricing),
+				fareBasis: getFareBasis(pricing, segmentPricing)
+			}),
+			ptc: pricing.ptc			
+		}),
+		validatingCarrier: tripOption.pricing[0].fare[0].carrier
+	}],
+	provider: "Google"
+})]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+</mule>

@@ -1,0 +1,117 @@
+= Google QPX Connector
+:keywords: anypoint studio, esb, connector, endpoint, google, qpx, flights
+:imagesdir: ./_images
+:toc: macro
+:toclevels: 2
+
+toc::[]
+
+[[overview]]
+== Overview
+
+Anypoint™ Connector for Google QPX allows to interact with Google QPX Express API and provides the ability to search for flights and use this data into your Mule apps.
+
+The Google QPX Express API allows developers to access information on global airline pricing and availability. By integrating the API into their applications, developers can provide their customers with airfare pricing and shopping services. With one query, QPX Express searches airline schedules, fares, tax rules, and seat availability in order to return fully-priced, availability-checked flight options and booking information.
+
+Read through this user guide to understand how to set up and configure a basic flow using the connector. Track feature additions, compatibility, limitations, and API version updates with each release of the connector using the link:/doc/release-notes.adoc[Connector Release Notes]. Review the connector operations and functionality using the link:https://gui1207.github.io/google-qpx-connector[Technical Reference] along side the link:/demo[demo applications].
+
+MuleSoft maintains this connector under the link:https://docs.mulesoft.com/mule-user-guide/v/3.8/anypoint-connectors#connector-support-categories[Community] support policy.
+
+[[important-concepts]]
+== Important Concepts
+
+This document assumes that you are familiar with Mule,
+link:https://docs.mulesoft.com/mule-user-guide/v/3.8/anypoint-connectors[Anypoint Connectors], and
+link:https://docs.mulesoft.com/anypoint-studio/v/6[Anypoint Studio]. To increase your familiarity with Studio, consider completing a link:https://docs.mulesoft.com/anypoint-studio/v/6/basic-studio-tutorial[Anypoint Studio Tutorial]. This page requires basic knowledge of link:https://docs.mulesoft.com/mule-user-guide/v/3.8/mule-concepts[Mule Concepts], link:https://docs.mulesoft.com/mule-user-guide/v/3.8/elements-in-a-mule-flow[Elements in a Mule Flow], and link:https://docs.mulesoft.com/mule-user-guide/v/3.8/global-elements[Global Elements].
+
+
+[[requirements]]
+== Hardware and Software Requirements
+
+For hardware and software requirements, visit the link:/doc/release-notes.adoc[Connector Release Notes].
+
+[[install]]
+== How to Install
+
+You can download the source code and build it with devkit to find it available on your local repository. Then you can add it to Studio
+
+[[upgrading]]
+=== Upgrading from an Older Version
+
+Since this is the first version of Expedia Connector, upgrading from older version is not applicable.
+
+[[ns-schema]]
+== Connector Namespace and Schema
+
+When designing your application in Anypoint Studio, when you drag the connector from the palette onto the Anypoint Studio canvas, Studio automatically populates the XML code with the connector *namespace* and *schema location*.
+
+*Namespace:* `+http://www.mulesoft.org/schema/mule/google-qpx+` +
+*Schema Location:* `+http://www.mulesoft.org/schema/mule/connector/current/mule-google-qpx.xsd+`
+
+[TIP]
+If you are manually coding the Mule application in Studio's XML editor or another text editor, define the namespace and schema location in the header of your *Configuration XML*, inside the `<mule>` tag.
+
+[source, xml,linenums]
+----
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:connector="http://www.mulesoft.org/schema/mule/google-qpx"
+      xsi:schemaLocation="
+               http://www.mulesoft.org/schema/mule/core
+               http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+               http://www.mulesoft.org/schema/mule/connector
+               http://www.mulesoft.org/schema/mule/connector/current/mule-google-qpx.xsd">
+
+      <!-- put your global configuration elements and flows here -->
+
+</mule>
+----
+
+*Note:* Use `current` in the schema path. Studio interprets this to the current Mule version.
+
+[[maven]]
+== Maven Dependency Information
+
+For Maven dependency management, include this XML snippet in your `pom.xml` file.
+
+[source,xml,linenums]
+----
+<dependency>
+  <groupId>org.mule.modules</groupId>
+  <artifactId>google-qpx-connector</artifactId>
+  <version>1.0.0</version>
+</dependency>
+----
+
+[[configure]]
+== How to Configure
+
+Place the connector in your flow as applicable for your use case.
+
+To use the Google QPX connector in your Mule application, you must configure a global Google QPX element that can be used by the Google QPX connector (read more about  link:https://docs.mulesoft.com/mule-user-guide/v/3.8/global-elements[Global Elements]). The Google QPX connector provides the following global configuration(s), requiring the following credentials:
+
+[%header%autowidth.spread]
+|===
+|Field |Description
+|*API Key* | A valid Google QPX API key. link:https://developers.google.com/qpx-express/v1/prereqs#create-a-project-for-your-client[How to generate API key].
+|===
+
+[[operations]]
+== Operations
+
+The below list of operations can be performed by using Google QPX Connector
+
+[%header%autowidth.spread]
+|===
+|Operation |Description
+|Trips | Returns a list of flights including the flight details and price
+|===
+
+[[demo_app]]
+== Demo Applications Using Connector
+You can find demo apps link:/demo[here]
+
+== Resources
+
+* Access the link:/doc/release-notes.adoc[Google QPX Connector Release Notes].
+* link:https://developers.google.com/qpx-express/v1/[Google QPX API Reference]

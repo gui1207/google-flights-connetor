@@ -1,0 +1,3 @@
+<!-- BEGIN_INCLUDE(google-qpx:greet) -->
+    <google-qpx:greet config-ref="" friend="#[map-payload:friend]" />
+<!-- END_INCLUDE(google-qpx:greet) -->
