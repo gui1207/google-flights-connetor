@@ -1,0 +1,105 @@
+
+:toc:               left
+:toc-title:         Connector Summary
+:toclevels:         2
+:last-update-label!:
+:docinfo:
+:source-highlighter: coderay
+:icons: font
+
+
+= Google QPX Connector API Reference
+
++++
+<p>Anypoint™ Connector for Google QPX allows to interact with Google QPX Express API and provides the ability to search for flights and use this data into your Mule apps.</p>
+<p>The Google QPX Express API allows developers to access information on global airline pricing and availability. By integrating the API into their applications, developers can
+provide their customers with airfare pricing and shopping services. With one query, QPX Express searches airline schedules, fares, tax rules, and seat availability in order to
+return fully-priced, availability-checked flight options and booking information.</p>
++++
+
+*Additional Info*
+[width="50", cols=".<60%,^40%" ]
+|======================
+| Requires Mule Enterprise License |  No icon:remove[]  {nbsp}
+| Requires Entitlement |  No icon:remove[]  {nbsp}
+| Mule Version | 3.8.0 or higher
+|======================
+
+
+== Configs
+---
+=== Configuration
+`<google-qpx:config>`
+
+
+`Connection Management` 
+
++++
+This class handles the API connection as well the reconnections.
++++
+
+
+==== Attributes
+[cols=".^20%,.^20%,.^35%,.^20%,^.^5%", options="header"]
+|======================
+| Name | Java Type | Description | Default Value | Required
+|name | +++<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html">String</a>+++ | The name of this configuration. With this name can be later referenced. | | *x*{nbsp}
+| apiKey | +++<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html">String</a>+++ | +++A valid Google QPX API key. <a href="https://developers.google.com/qpx-express/v1/prereqs#create-a-project-for-your-client">How to generate API key</a>.+++ |   | *x*{nbsp}
+| applicationName | +++<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html">String</a>+++ | +++The application name to be used in each request+++ |  Mule-GoogleQPXConnector/1.0 | {nbsp}
+|======================
+
+
+
+== Processors
+
+---
+
+=== Trips
+`<google-qpx:trips>`
+
+
+
+
++++
+Returns a list of flights including the flight details and price
++++
+
+
+    
+    
+==== Attributes
+[cols=".^20%,.^20%,.^35%,.^20%,^.^5%", options="header"]
+|======================
+|Name |Java Type | Description | Default Value | Required
+| config-ref | +++<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html">String</a>+++ | Specify which config to use | |*x*{nbsp}
+
+
+
+| 
+tripsSearchRequest icon:envelope[] | +++<a href="javadocs/org/mule/modules/googleqpx/model/TripsSearchRequest.html">TripsSearchRequest</a>+++ | +++Required values are at least one adult or senior passenger, an origin, a destination, and a date.+++ | #[payload] | {nbsp}
+
+
+|======================
+
+==== Returns
+[cols=".^40%,.^60%", options="header"]
+|======================
+|Return Java Type | Description
+|+++<a href="javadocs/org/mule/modules/googleqpx/model/TripsSearchResponse.html">TripsSearchResponse</a>+++ | +++A search response with flights and prices.+++
+|======================
+
+
+==== APIDoc Reference
++++<a href="https://developers.google.com/qpx-express/v1/trips/search">Trips API Doc</a>+++
+
+
+
+
+
+
+
+
+
+
+
+

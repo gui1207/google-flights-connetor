@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Asciidoctor 1.5.4">
+  <meta name="keywords" content="anypoint studio, esb, connector, endpoint, google, qpx, flights">
+  <title>Google QPX Connector</title>
+  <link rel="stylesheet" href="https://asciidoclive.com/assets/asciidoctor.js/css/asciidoctor.css">
+</head>
+
+<body class="article">
+  <div id="header">
+    <h1>Google QPX Connector</h1>
+  </div>
+  <div id="content">
+    <div id="preamble">
+      <div class="sectionbody">
+        <div id="toc" class="toc">
+          <div id="toctitle" class="title">Table of Contents</div>
+          <ul class="sectlevel1">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#important-concepts">Important Concepts</a></li>
+            <li><a href="#requirements">Hardware and Software Requirements</a></li>
+            <li><a href="#install">How to Install</a>
+              <ul class="sectlevel2">
+                <li><a href="#upgrading">Upgrading from an Older Version</a></li>
+              </ul>
+            </li>
+            <li><a href="#ns-schema">Connector Namespace and Schema</a></li>
+            <li><a href="#maven">Maven Dependency Information</a></li>
+            <li><a href="#configure">How to Configure</a></li>
+            <li><a href="#operations">Operations</a></li>
+            <li><a href="#demo_app">Demo Applications Using Connector</a></li>
+            <li><a href="#_resources">Resources</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="overview">Overview</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Anypoint™ Connector for Google QPX allows to interact with Google QPX Express
+            API and provides the ability to search for flights and use this data
+            into your Mule apps.</p>
+        </div>
+        <div class="paragraph">
+          <p>The Google QPX Express API allows developers to access information on global
+            airline pricing and availability. By integrating the API into their applications,
+            developers can provide their customers with airfare pricing and shopping
+            services. With one query, QPX Express searches airline schedules, fares,
+            tax rules, and seat availability in order to return fully-priced, availability-checked
+            flight options and booking information.</p>
+        </div>
+        <div class="paragraph">
+          <p>Read through this user guide to understand how to set up and configure
+            a basic flow using the connector. Track feature additions, compatibility,
+            limitations, and API version updates with each release of the connector
+            using the <a href="/doc/release-notes.html">Connector Release Notes</a>.
+            Review the connector operations and functionality using the <a href="https://gui1207.github.io/google-qpx-connector">Technical Reference</a>            along side the <a href="/demo">demo applications</a>.</p>
+        </div>
+        <div class="paragraph">
+          <p>MuleSoft maintains this connector under the <a href="https://docs.mulesoft.com/mule-user-guide/v/3.8/anypoint-connectors#connector-support-categories">Community</a>            support policy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="important-concepts">Important Concepts</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This document assumes that you are familiar with Mule,
+            <a href="https://docs.mulesoft.com/mule-user-guide/v/3.8/anypoint-connectors">Anypoint Connectors</a>,
+            and
+            <a href="https://docs.mulesoft.com/anypoint-studio/v/6">Anypoint Studio</a>.
+            To increase your familiarity with Studio, consider completing a <a href="https://docs.mulesoft.com/anypoint-studio/v/6/basic-studio-tutorial">Anypoint Studio Tutorial</a>.
+            This page requires basic knowledge of <a href="https://docs.mulesoft.com/mule-user-guide/v/3.8/mule-concepts">Mule Concepts</a>,
+            <a href="https://docs.mulesoft.com/mule-user-guide/v/3.8/elements-in-a-mule-flow">Elements in a Mule Flow</a>,
+            and <a href="https://docs.mulesoft.com/mule-user-guide/v/3.8/global-elements">Global Elements</a>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="requirements">Hardware and Software Requirements</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>For hardware and software requirements, visit the <a href="/doc/release-notes.html">Connector Release Notes</a>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="install">How to Install</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>You can download the source code and build it with devkit to find it available
+            on your local repository. Then you can add it to Studio</p>
+        </div>
+        <div class="sect2">
+          <h3 id="upgrading">Upgrading from an Older Version</h3>
+          <div class="paragraph">
+            <p>Since this is the first version of Expedia Connector, upgrading from
+              older version is not applicable.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="ns-schema">Connector Namespace and Schema</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>When designing your application in Anypoint Studio, when you drag the connector
+            from the palette onto the Anypoint Studio canvas, Studio automatically
+            populates the XML code with the connector <strong>namespace</strong>            and <strong>schema location</strong>.</p>
+        </div>
+        <div class="paragraph">
+          <p><strong>Namespace:</strong> <code>http://www.mulesoft.org/schema/mule/google-qpx</code><br>
+            <strong>Schema Location:</strong> <code>http://www.mulesoft.org/schema/mule/connector/current/mule-google-qpx.xsd</code></p>
+        </div>
+        <div class="admonitionblock tip">
+          <table>
+            <tr>
+              <td class="icon">
+                <div class="title">Tip</div>
+              </td>
+              <td class="content">
+                If you are manually coding the Mule application in Studio&#8217;s XML editor or another
+                text editor, define the namespace and schema location in the header
+                of your <strong>Configuration XML</strong>, inside
+                the <code>&lt;mule&gt;</code> tag.
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="listingblock">
+          <div class="content">
+            <pre class="highlight"><code class="language-xml" data-lang="xml">&lt;mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:connector="http://www.mulesoft.org/schema/mule/google-qpx"
+      xsi:schemaLocation="
+               http://www.mulesoft.org/schema/mule/core
+               http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+               http://www.mulesoft.org/schema/mule/connector
+               http://www.mulesoft.org/schema/mule/connector/current/mule-google-qpx.xsd"&gt;
+
+      &lt;!-- put your global configuration elements and flows here --&gt;
+
+&lt;/mule&gt;</code></pre>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p><strong>Note:</strong> Use <code>current</code> in the schema path. Studio
+            interprets this to the current Mule version.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="maven">Maven Dependency Information</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>For Maven dependency management, include this XML snippet in your <code>pom.xml</code>            file.</p>
+        </div>
+        <div class="listingblock">
+          <div class="content">
+            <pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.mule.modules&lt;/groupId&gt;
+  &lt;artifactId&gt;google-qpx-connector&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="configure">How to Configure</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>Place the connector in your flow as applicable for your use case.</p>
+        </div>
+        <div class="paragraph">
+          <p>To use the Google QPX connector in your Mule application, you must configure
+            a global Google QPX element that can be used by the Google QPX connector
+            (read more about <a href="https://docs.mulesoft.com/mule-user-guide/v/3.8/global-elements">Global Elements</a>).
+            The Google QPX connector provides the following global configuration(s),
+            requiring the following credentials:</p>
+        </div>
+        <table class="tableblock frame-all grid-all spread">
+          <colgroup>
+            <col>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="tableblock halign-left valign-top">Field</th>
+              <th class="tableblock halign-left valign-top">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock"><strong>API Key</strong></p>
+              </td>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock">A valid Google QPX API key. <a href="https://developers.google.com/qpx-express/v1/prereqs#create-a-project-for-your-client">How to generate API key</a>.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="operations">Operations</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>The below list of operations can be performed by using Google QPX Connector</p>
+        </div>
+        <table class="tableblock frame-all grid-all spread">
+          <colgroup>
+            <col>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="tableblock halign-left valign-top">Operation</th>
+              <th class="tableblock halign-left valign-top">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock">Trips</p>
+              </td>
+              <td class="tableblock halign-left valign-top">
+                <p class="tableblock">Returns a list of flights including the flight details and price</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="demo_app">Demo Applications Using Connector</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>You can find demo apps <a href="/demo">here</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_resources">Resources</h2>
+      <div class="sectionbody">
+        <div class="ulist">
+          <ul>
+            <li>
+              <p>Access the <a href="/doc/release-notes.html">Google QPX Connector Release Notes</a>.</p>
+            </li>
+            <li>
+              <p><a href="https://developers.google.com/qpx-express/v1/">Google QPX API Reference</a></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
