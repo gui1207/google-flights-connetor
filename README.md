@@ -6,8 +6,8 @@ The Google QPX Express API allows developers to access information on global air
 # Installation 
 You can download the source code and build it with devkit to find it available on your local repository. Then you can add it to Studio
 
-#Usage
-For information about usage our documentation at http://github.com/gui1207/google-qpx-connector.
+# Usage
+For information about usage our documentation at https://gui1207.github.io/google-qpx-connector/.
 
 # Reporting Issues
 We use GitHub:Issues for tracking issues with this connector. You can report new issues at this link http://github.com/gui1207/google-qpx-connector/issues.
